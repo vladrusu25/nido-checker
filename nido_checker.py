@@ -27,13 +27,12 @@ def check_room_availability():
                         f"📎 View: https://www.nidoliving.com/en-gb/netherlands/maastricht/randwyck/rooms"
                     )
 
-        # No rooms available
+        # Nothing found
         print(f"Checked at {time.strftime('%H:%M:%S')} - No rooms available.")
         return None
 
     except Exception as e:
-        error_message = f"❌ Error checking availability at {time.strftime('%H:%M:%S')}: {e}"
-        print(error_message)
+        print(f"❌ Error checking availability at {time.strftime('%H:%M:%S')}: {e}")
         return None
 
 
@@ -43,7 +42,7 @@ async def main():
         if message:
             await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
             print(f"✅ Room alert sent at {time.strftime('%H:%M:%S')}")
-        await asyncio.sleep(60)  # check every 1 minute
+        await asyncio.sleep(60)
 
 if __name__ == '__main__':
     asyncio.run(main())

@@ -1,0 +1,6 @@
+services:
+  - type: worker
+    name: nido-checker
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python nido_checker.py"

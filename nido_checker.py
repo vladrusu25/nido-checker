@@ -21,31 +21,26 @@ def check_room_availability():
             for term in room.get('Terms', []):
                 if term.get('RoomsAvailable', 0) > 0:
                     return (
-                        f"🛏️ Room Available!\n"
+                        f"🛏️ Room Available at {time.strftime('%H:%M:%S')}!\n"
                         f"Type: {room.get('RoomTypeDescription')}\n"
                         f"Price: {term.get('MinPriceFormatted')}\n"
                         f"📎 View: https://www.nidoliving.com/en-gb/netherlands/maastricht/randwyck/rooms"
                     )
-        return None
+
+        return f"❌ No rooms available as of {time.strftime('%H:%M:%S')}."
 
     except Exception as e:
-        print("❌ Error checking availability:", e)
-        return None
+        error_message = f"❌ Error checking availability at {time.strftime('%H:%M:%S')}: {e}"
+        print(error_message)
+        return error_message
 
 
 async def main():
-    notified = False
     while True:
         message = check_room_availability()
-        if message and not notified:
-            await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
-            print("✅ Telegram message sent.")
-            notified = True
-        elif not message:
-            print(f"Checked at {time.strftime('%H:%M:%S')} - No rooms available yet.")
-            notified = False
-
-        await asyncio.sleep(60)  # check every 2 minutes
+        await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
+        print(f"✅ Telegram message sent at {time.strftime('%H:%M:%S')}")
+        await asyncio.sleep(60)  # check every 1 minute
 
 if __name__ == '__main__':
     asyncio.run(main())

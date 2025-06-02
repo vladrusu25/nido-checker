@@ -19,7 +19,11 @@ def check_room_availability():
 
         for room in data.get('roomAvailability', []):
             for term in room.get('Terms', []):
+                print(f"RoomsAvailable: {term.get('RoomsAvailable')}")
+
                 if term.get('RoomsAvailable', 0) > 0:
+
+    
                     return (
                         f"🛏️ Room Available at {time.strftime('%H:%M:%S')}!\n"
                         f"Type: {room.get('RoomTypeDescription')}\n"
@@ -29,6 +33,7 @@ def check_room_availability():
 
         # Nothing found
         print(f"Checked at {time.strftime('%H:%M:%S')} - No rooms available.")
+        
         return None
 
     except Exception as e:
@@ -42,7 +47,7 @@ async def main():
         if message:
             await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
             print(f"✅ Room alert sent at {time.strftime('%H:%M:%S')}")
-        await asyncio.sleep(60)
+        await asyncio.sleep(15)
 
 if __name__ == '__main__':
     asyncio.run(main())
